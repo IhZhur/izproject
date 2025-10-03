@@ -17,6 +17,3 @@ media/
 # Editors/OS
 .vscode/
 .DS_Store
-
-# Tailwind бинарь, если не используете LFS
-# web/tailwindcss*
