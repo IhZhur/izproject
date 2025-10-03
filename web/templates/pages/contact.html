@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Contact — {{ SITE.site_name|default:"Contact" }}{% endblock %}
+{% block og_title %}Contact {{ SITE.site_name }}{% endblock %}
+{% block og_desc %}Questions about a car, financing or shipping? Get in touch.{% endblock %}
+{% block og_image %}{% static 'img/og-default.jpg' %}{% endblock %}
+
+{% block content %}
+
+  {# ===================== HERO ===================== #}
+  <section class="relative overflow-hidden min-h-[56svh] md:min-h-[64svh]">
+    <div class="full-bleed">
+      <img src="{% static 'img/hero-contact.jpg' %}" alt="Customer talking with advisor" class="h-full w-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/55 to-black/85"></div>
+    </div>
+
+    <div class="container relative z-10 py-16 md:py-24 lg:py-32">
+      <span class="badge badge-soft text-base md:text-lg">Contact</span>
+      <h1 class="mt-3 text-5xl md:text-7xl font-semibold tracking-tight">Contact us</h1>
+      <p class="mt-4 max-w-3xl text-lg md:text-2xl text-white/85">
+        Have questions about a car, financing, or shipping? We typically reply within 1–2 business days.
+      </p>
+      <div class="mt-8">
+        <a href="/cars/" class="btn btn-primary text-base md:text-lg">Browse cars</a>
+      </div>
+    </div>
+  </section>
+
+  {# Divider between hero and content #}
+  <div class="container"><div class="mt-6 h-px w-full bg-white/10 rounded-full"></div></div>
+
+  {# ===================== DETAILS + FORM ===================== #}
+  <section class="section pt-8">
+    <div class="container grid gap-6 lg:grid-cols-2">
+
+      {# ---- Our showroom (NO bullets and NO gallery) ---- #}
+      <aside class="card">
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner">
+            <h2 class="card-title">Our showroom</h2>
+
+            <div class="mt-5">
+              <p class="text-white/85 leading-relaxed text-base md:text-lg">
+                We’re a premier enthusiast dealership focused on well‑kept classics and specialty vehicles.
+                Stop by to see current inventory, review documentation, or arrange financing and shipping with our team.
+              </p>
+
+              {# list with no dots #}
+              <ul class="mt-4 list-none space-y-2 text-white/80">
+                <li>Transparent condition reporting and numbers</li>
+                <li>Help with financing and insured nationwide shipping</li>
+                <li>Friendly guidance from the first inquiry to delivery</li>
+              </ul>
+
+              <dl class="mt-6 space-y-3 text-white/85">
+                {% if SITE.address %}
+                  <div>
+                    <dt class="text-white/60">Address</dt>
+                    <dd class="text-lg">
+                      <a class="underline hover:no-underline"
+                        href="https://maps.google.com/?q={{ SITE.address|urlencode }}"
+                        target="_blank" rel="noopener">{{ SITE.address }}</a>
+                    </dd>
+                  </div>
+                {% endif %}
+                {% if SITE.phone %}
+                  <div>
+                    <dt class="text-white/60">Phone</dt>
+                    <dd class="text-lg"><a class="underline hover:no-underline" href="tel:{{ SITE.phone }}">{{ SITE.phone }}</a></dd>
+                  </div>
+                {% endif %}
+                {% if SITE.email %}
+                  <div>
+                    <dt class="text-white/60">Email</dt>
+                    <dd class="text-lg"><a class="underline hover:no-underline" href="mailto:{{ SITE.email }}">{{ SITE.email }}</a></dd>
+                  </div>
+                {% endif %}
+                {% if SITE.hours %}
+                  <div>
+                    <dt class="text-white/60">Hours</dt>
+                    <dd class="text-lg">{{ SITE.hours }}</dd>
+                  </div>
+                {% endif %}
+              </dl>
+
+              <div class="mt-6 flex flex-wrap gap-3">
+                <a href="/cars/" class="btn btn-ghost">Browse inventory</a>
+                {% if SITE.phone %}<a href="tel:{{ SITE.phone }}" class="btn btn-ghost">Call now</a>{% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      {# ---- Contact form ---- #}
+      <form method="post" action="" class="card" aria-label="Contact form">
+        {% csrf_token %}
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner">
+            <h2 class="card-title">Send a message</h2>
+
+            <div class="mt-6 grid gap-4 sm:grid-cols-2">
+              <label class="label"><span>Full name</span>
+                <input class="input" type="text" name="name" autocomplete="name" required>
+              </label>
+              <label class="label"><span>Phone</span>
+                <input class="input" type="tel" name="phone" autocomplete="tel">
+              </label>
+              <label class="label sm:col-span-2"><span>Email</span>
+                <input class="input" type="email" name="email" autocomplete="email">
+              </label>
+            </div>
+
+            <label class="label mt-4"><span>Message</span>
+              <textarea class="textarea" name="message" rows="6" required></textarea>
+            </label>
+
+            {# Honeypot #}
+            <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off">
+
+            <div class="mt-6 flex items-center justify-between gap-4">
+              <p class="text-xs text-white/55">By sending you agree to our <a class="underline" href="{% url 'privacy' %}">Privacy Policy</a>.</p>
+              <button type="submit" class="btn btn-primary min-h-[44px]">Send</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  {# ===================== FEATURE CARDS (with images) ===================== #}
+  <section class="section pt-0">
+    <div class="container grid gap-6 md:grid-cols-3">
+      <article class="card overflow-hidden">
+        <img loading="lazy" src="{% static 'img/contact/card-response.jpg' %}" alt="Fast response" class="h-40 md:h-44 w-full object-cover">
+        <div class="card-body p-6 md:p-8"><div class="card-inner">
+          <h3 class="card-title">Response times</h3>
+          <p class="text-white/80 text-base md:text-lg leading-relaxed">We answer messages within 1–2 business days. For urgent questions, call during showroom hours.</p>
+        </div></div>
+      </article>
+
+      <article class="card overflow-hidden">
+        <img loading="lazy" src="{% static 'img/contact/card-trade.jpg' %}" alt="Trade-ins" class="h-40 md:h-44 w-full object-cover">
+        <div class="card-body p-6 md:p-8"><div class="card-inner">
+          <h3 class="card-title">Trade-ins</h3>
+          <p class="text-white/80 text-base md:text-lg leading-relaxed">We consider trades. Include photos, VIN, mileage, and your expectations in the message.</p>
+        </div></div>
+      </article>
+
+      <article class="card overflow-hidden">
+        <img loading="lazy" src="{% static 'img/contact/card-finance.jpg' %}" alt="Financing" class="h-40 md:h-44 w-full object-cover">
+        <div class="card-body p-6 md:p-8"><div class="card-inner">
+          <h3 class="card-title">Financing help</h3>
+          <p class="text-white/80 text-base md:text-lg leading-relaxed">Not sure what terms you qualify for? Apply on the Financing page and our partner will pre‑approve you.</p>
+        </div></div>
+      </article>
+    </div>
+  </section>
+
+  {# ===================== MAP (truly responsive embed) ===================== #}
+  <section class="section pt-0">
+    <div class="container">
+      <h2 class="text-2xl font-semibold">Visit us</h2>
+      <div class="mt-4">
+        <div class="rounded-xl overflow-hidden ring-1 ring-inset ring-white/10 shadow-soft aspect-video md:aspect-[21/9]">
+              {% if SITE.map_embed %}
+                {{ SITE.map_embed|safe }}
+              {% elif SITE.lat and SITE.lng %}
+                <iframe title="Map to {{ SITE.site_name|default:'our location' }}" src="https://www.google.com/maps?q={{ SITE.lat }},{{ SITE.lng }}&z=14&output=embed" class="w-full h-full" style="border:0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              {% elif SITE.address %}
+                <iframe title="Map to {{ SITE.site_name|default:'our location' }}" src="https://www.google.com/maps?q={{ SITE.address|urlencode }}&z=14&output=embed" class="w-full h-full" style="border:0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              {% else %}
+                <div class="w-full h-full grid place-items-center text-white/60">Set SITE.address or coords to show a live Google Map.</div>
+              {% endif %}
+        </div>
+        <div class="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-base md:text-lg text-white/80">
+          {% if SITE.address %}
+            <span>
+              <span class="text-white/60">Address:</span>
+              <a class="underline hover:no-underline"
+                href="https://maps.google.com/?q={{ SITE.address|urlencode }}"
+                target="_blank" rel="noopener">{{ SITE.address }}</a>
+            </span>
+          {% endif %}
+
+          {% if SITE.phone %}
+            <div class="w-full">
+              <span class="text-white/60">Phone:</span>
+              <a class="underline hover:no-underline" href="tel:{{ SITE.phone }}">{{ SITE.phone }}</a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ===================== FAQ (larger text) ===================== #}
+  <section class="section">
+    <div class="container">
+      <h2 class="text-2xl font-semibold">FAQ</h2>
+      <div class="mt-6 overflow-hidden rounded-2xl border border-white/10 divide-y divide-white/10">
+        <details class="p-5 group">
+          <summary class="cursor-pointer font-semibold text-lg md:text-xl">How soon will you respond?</summary>
+          <div class="mt-2 text-white/80 text-base md:text-lg">Usually within 1–2 business days.</div>
+        </details>
+        <details class="p-5 group">
+          <summary class="cursor-pointer font-semibold text-lg md:text-xl">Do you take trades?</summary>
+          <div class="mt-2 text-white/80 text-base md:text-lg">Yes. Share photos, VIN, mileage, and your expectations in the message.</div>
+        </details>
+        <details class="p-5 group">
+          <summary class="cursor-pointer font-semibold text-lg md:text-xl">Can you arrange shipping?</summary>
+          <div class="mt-2 text-white/80 text-base md:text-lg">Yes. We offer fully insured nationwide delivery. See the Shipping page for details.</div>
+        </details>
+        <details class="p-5 group">
+          <summary class="cursor-pointer font-semibold text-lg md:text-xl">Can I get financing?</summary>
+          <div class="mt-2 text-white/80 text-base md:text-lg">We work with classic‑friendly lenders. Start on the Financing page to get pre‑approved.</div>
+        </details>
+        <details class="p-5 group">
+          <summary class="cursor-pointer font-semibold text-lg md:text-xl">Do I need an appointment?</summary>
+          <div class="mt-2 text-white/80 text-base md:text-lg">Walk‑ins are welcome during posted hours; test drives and inspections are by appointment.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  {# ===================== CTA ===================== #}
+  <section class="section">
+    <div class="container card bg-white/5">
+      <div class="card-body flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h3 class="card-title">Ready to find your car?</h3>
+          <p class="text-white/75">Browse new arrivals or talk to a specialist.</p>
+        </div>
+        <div class="flex gap-3">
+          <a class="btn btn-primary" href="/cars/">View inventory</a>
+          <a class="btn btn-ghost" href="{% url 'financing' %}">Financing</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

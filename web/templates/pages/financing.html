@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Financing — {{ SITE.site_name|default:"Financing" }}{% endblock %}
+{% block og_title %}Financing options{% endblock %}
+{% block og_desc %}Pre‑approval in minutes. Classic‑friendly lenders and flexible terms.{% endblock %}
+{% block og_image %}{% static 'img/og-default.jpg' %}{% endblock %}
+
+{% block content %}
+  <!-- HERO full-bleed (как на shipping) -->
+  <section class="relative overflow-hidden min-h-[65svh] md:min-h-[75svh]">
+    <div class="full-bleed">
+      <img src="{% static 'img/hero-financing.jpg' %}" alt="Finance your classic" class="h-full w-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/80"></div>
+    </div>
+
+    <div class="container relative z-10 py-14 md:py-24 lg:py-32">
+      <span class="badge badge-soft text-sm md:text-base">Financing</span>
+      <h1 class="mt-4 text-5xl md:text-7xl font-semibold leading-tight">Personalized financing for classics</h1>
+      <p class="mt-4 max-w-3xl text-lg md:text-2xl text-white/80">Pre‑approval in minutes. Competitive rates and transparent terms.</p>
+      <a href="#apply" class="btn btn-primary mt-8 min-h-[44px]">Start application</a>
+    </div>
+  </section>
+
+  <!-- Steps — tall, uniform cards with extra info -->
+  <section class="section">
+    <div class="container grid gap-6 md:grid-cols-4 items-stretch">
+      <!-- Card 1 -->
+      <article class="card h-full hover-lift">
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner flex flex-col min-h-[28rem] md:minh-[32rem] px-3 md:px-4 lg:px-5">
+            <div class="rounded-xl overflow-hidden border border-neutral-800 aspect-[16/9] md:aspect-[4/3]">
+              <img src="{% static 'img/financing/discover.jpg' %}" alt="Discover" class="h-full w-full object-cover">
+            </div>
+            <h3 class="card-title mt-4">Discover your car</h3>
+            <p class="text-white/70">Browse curated inventory. Ask for extra photos or inspection notes.</p>
+            <ul class="mt-3 list-disc list-inside text-white/70 text-sm md:text-base space-y-1">
+              <li>VIN checks on request</li>
+              <li>Condition highlights provided</li>
+            </ul>
+            <a href="/cars/" class="mt-auto link">Learn more</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="card h-full hover-lift">
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner flex flex-col min-h-[28rem] md:minh-[32rem] px-3 md:px-4 lg:px-5">
+            <div class="rounded-xl overflow-hidden border border-neutral-800 aspect-[16/9] md:aspect-[4/3]">
+              <img src="{% static 'img/financing/apply.jpg' %}" alt="Apply" class="h-full w-full object-cover">
+            </div>
+            <h3 class="card-title mt-4">Apply in minutes</h3>
+            <p class="text-white/70">Share basics and preferences. No hard pull at this stage.</p>
+            <ul class="mt-3 list-disc list-inside text-white/70 text-sm md:text-base space-y-1">
+              <li>Soft check pre‑approval</li>
+              <li>No obligation quote</li>
+            </ul>
+            <a href="#apply" class="mt-auto link">Start application</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="card h-full hover-lift">
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner flex flex-col min-h-[28rem] md:minh-[32rem] px-3 md:px-4 lg:px-5">
+            <div class="rounded-xl overflow-hidden border border-neutral-800 aspect-[16/9] md:aspect-[4/3]">
+              <img src="{% static 'img/financing/approve.jpg' %}" alt="Pre-approval" class="h-full w-full object-cover">
+            </div>
+            <h3 class="card-title mt-4">Get pre‑approved</h3>
+            <p class="text-white/70">We match you with classic‑friendly lenders and terms.</p>
+            <ul class="mt-3 list-disc list-inside text-white/70 text-sm md:text-base space-y-1">
+              <li>Multiple offers compared</li>
+              <li>Fixed or variable options</li>
+            </ul>
+            <a href="#apply" class="mt-auto link">See rates</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="card h-full hover-lift">
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner flex flex-col min-h-[28rem] md:minh-[32rem] px-3 md:px-4 lg:px-5">
+            <div class="rounded-xl overflow-hidden border border-neutral-800 aspect-[16/9] md:aspect-[4/3]">
+              <img src="{% static 'img/financing/delivery.jpg' %}" alt="Delivery" class="h-full w-full object-cover">
+            </div>
+            <h3 class="card-title mt-4">Finish & deliver</h3>
+            <p class="text-white/70">Paperwork, payment, and shipping coordination to your door.</p>
+            <ul class="mt-3 list-disc list-inside text-white/70 text-sm md:text-base space-y-1">
+              <li>Title & bill of sale handled</li>
+              <li>Open or enclosed carriers</li>
+            </ul>
+            <a href="/shipping/" class="mt-auto link">Shipping options</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Plans (оформление карточками как "Pricing hints" на shipping) -->
+  <section class="section">
+    <div class="container grid gap-6 md:grid-cols-3">
+      <div class="card">
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner px-3 md:px-4 lg:px-5 space-y-3">
+            <p class="kpi">Standard</p>
+            <h3 class="text-4xl md:text-5xl font-semibold">Up to $10,000</h3>
+            <ul class="text-white/80 space-y-1">
+              <li>Duration: up to 12 months</li>
+              <li>Fixed interest rate</li>
+              <li>Starting at 4%</li>
+            </ul>
+            <a href="#apply" class="btn btn-secondary">Apply now</a>
+          </div>
+        </div>
+      </div>
+      <div class="card ring-2 ring-brand/40 bg-brand/10">
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner px-3 md:px-4 lg:px-5 space-y-3">
+            <p class="kpi">Standard +</p>
+            <h3 class="text-4xl md:text-5xl font-semibold">Up to $25,000</h3>
+            <ul class="text-white/80 space-y-1">
+              <li>Duration: up to 60 months</li>
+              <li>Fixed interest rate</li>
+              <li>Starting at 6%</li>
+            </ul>
+            <a href="#apply" class="btn btn-primary">Apply now</a>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner px-3 md:px-4 lg:px-5 space-y-3">
+            <p class="kpi">Premium</p>
+            <h3 class="text-4xl md:text-5xl font-semibold">Up to $50,000</h3>
+            <ul class="text-white/80 space-y-1">
+              <li>Duration: up to 120 months</li>
+              <li>Fixed interest rate</li>
+              <li>Starting at 8%</li>
+            </ul>
+            <a href="#apply" class="btn btn-secondary">Apply now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="mt-3 text-center text-xs text-white/50">Illustrative terms. Final rates depend on credit, vehicle, and down payment.</p>
+  </section>
+
+  <!-- Application form (шапка-картинка и отступы как на shipping) -->
+  <section id="apply" class="section">
+    <div class="container">
+      <form method="post" action="" class="card max-w-5xl mx-auto" aria-label="Financing application">
+        {% csrf_token %}
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner px-3 md:px-4 lg:px-5">
+            <img src="{% static 'img/financing/form.jpg' %}" alt="Apply for financing" class="h-32 md:h-40 w-full object-cover rounded-xl mb-4">
+            <h2 class="card-title">Start your application</h2>
+
+            <!-- поля -->
+            <div class="mt-6 form-grid grid gap-6 sm:grid-cols-2">
+              <label class="label block">
+                <span class="block mb-2">First name</span>
+                <input class="input" type="text" name="first_name" autocomplete="given-name" required>
+              </label>
+              <label class="label block">
+                <span class="block mb-2">Last name</span>
+                <input class="input" type="text" name="last_name" autocomplete="family-name" required>
+              </label>
+              <label class="label block">
+                <span class="block mb-2">Email</span>
+                <input class="input" type="email" name="email"
+                       inputmode="email" autocomplete="email"
+                       placeholder="your-email@address.com" required>
+              </label>
+              <label class="label block">
+                <span class="block mb-2">Phone</span>
+                <input class="input" type="tel" name="phone"
+                       inputmode="numeric" autocomplete="tel"
+                       placeholder="+1 (xxx)-xxx-xx-xx"
+                       maxlength="10" pattern="^\d{10}$" required>
+              </label>
+
+              <label class="label block sm:col-span-2">
+                <span class="block mb-2">Address</span>
+                <input class="input" type="text" name="address" autocomplete="street-address" required>
+              </label>
+              <label class="label block">
+                <span class="block mb-2">City</span>
+                <input class="input" type="text" name="city" autocomplete="address-level2" required>
+              </label>
+              <label class="label block">
+                <span class="block mb-2">State/Region</span>
+                <input class="input" type="text" name="state" autocomplete="address-level1" required>
+              </label>
+              <label class="label block">
+                <span class="block mb-2">ZIP / Postal code</span>
+                <input class="input" type="text" name="zip" inputmode="numeric" autocomplete="postal-code" required>
+              </label>
+
+              <label class="label block">
+                <span class="block mb-2">Monthly income ($)</span>
+                <input class="input" type="number" name="monthly_income" min="0" step="100" inputmode="numeric" required>
+              </label>
+              <label class="label block">
+                <span class="block mb-2">Credit score (estimate)</span>
+                <select class="select" name="credit_score">
+                  <option value="720+">720+</option>
+                  <option value="660-719">660–719</option>
+                  <option value="600-659">600–659</option>
+                  <option value="<600">Below 600</option>
+                  <option value="unknown">Not sure</option>
+                </select>
+              </label>
+              <label class="label block">
+                <span class="block mb-2">Term</span>
+                <select class="select" name="term">
+                  <option value="12">12 months</option>
+                  <option value="24">24 months</option>
+                  <option value="36">36 months</option>
+                  <option value="48">48 months</option>
+                  <option value="60">60 months</option>
+                  <option value="72">72 months</option>
+                </select>
+              </label>
+              <label class="label block">
+                <span class="block mb-2">Down payment ($)</span>
+                <input class="input" type="number" name="down_payment" min="0" step="100" inputmode="numeric">
+              </label>
+
+              <label class="label block sm:col-span-2">
+                <span class="block mb-2">Car of interest (Make / Model / Year)</span>
+                <input class="input" type="text" name="car" autocomplete="off">
+              </label>
+              <label class="label block">
+                <span class="block mb-2">Stock #</span>
+                <input class="input" type="text" name="stock" autocomplete="off">
+              </label>
+            </div>
+
+            <!-- notes -->
+            <label class="label block mt-6">
+              <span class="block mb-2">Notes</span>
+              <textarea class="textarea" name="message" rows="5" placeholder="Anything else you'd like us to know"></textarea>
+            </label>
+
+            <!-- низ формы -->
+            <div class="mt-6 pt-2 flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <p class="text-xs text-white/50">We will not share your data. See <a class="underline" href="{% url 'privacy' %}">Privacy Policy</a>.</p>
+              <button type="submit" class="btn btn-primary min-h-[44px] self-end sm:self-auto">Apply</button>
+            </div>
+          </div>
+        </div>
+        <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off"> {# honeypot #}
+      </form>
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function(){
+  const form = document.querySelector('#apply form');
+  if(!form) return;
+  const phone = form.querySelector('[name="phone"]');
+  if(!phone) return;
+
+  function digitsOnly(s){ return (s||'').replace(/\D/g,''); }
+
+  // Только цифры и служебные клавиши
+  phone.addEventListener('keydown', function(e){
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    const allow = ["Backspace","Delete","ArrowLeft","ArrowRight","Tab","Home","End"];
+    if (allow.includes(e.key)) return;
+    if (!/^\d$/.test(e.key)) { e.preventDefault(); return; }
+    if (digitsOnly(phone.value).length >= 10) { e.preventDefault(); }
+  });
+
+  // Очищаем вставку до цифр, максимум 10
+  phone.addEventListener('paste', function(e){
+    e.preventDefault();
+    const t = (e.clipboardData || window.clipboardData).getData('text') || "";
+    phone.value = digitsOnly(t).slice(0,10);
+  });
+
+  // На вводе удаляем любые случайные нецифровые символы
+  phone.addEventListener('input', function(){
+    phone.value = digitsOnly(phone.value).slice(0,10);
+  });
+})();
+</script>
+{% endblock %}

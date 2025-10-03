@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}{{ car.title }}{% endblock %}
+
+{% block og_title %}{{ car.title }}{% endblock %}
+{% block og_desc %}{{ car.description|striptags|truncatechars:200 }}{% endblock %}
+{% block og_image %}
+  {% with img=car.images.first %}
+    {% if img %}{{ request.scheme }}://{{ request.get_host }}{{ img.image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-default.jpg' %}{% endif %}
+  {% endwith %}
+{% endblock %}
+
+{% block content %}
+
+<style>
+/* === Vanilla Lightbox: ALWAYS fit inside viewport, no caption === */
+#lb{position:fixed;inset:0;z-index:50;display:none}
+#lb.on{display:block}
+#lb .backdrop{position:absolute;inset:0;background:rgba(0,0,0,.92)}
+#lb .stage{position:relative;height:100%;width:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:24px}
+#lb img{display:block;max-width:calc(100vw - 120px);max-height:calc(100vh - 120px);width:auto;height:auto;object-fit:contain;pointer-events:none;user-select:none}
+#lb .ctrl{position:absolute;z-index:2;display:flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:9999px;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.16);box-shadow:0 6px 24px rgba(0,0,0,.35);color:#fff}
+#lb .ctrl:hover{background:rgba(255,255,255,.28)}
+#lb .close{top:18px;right:18px;font-size:24px}
+#lb .prev{left:18px;top:50%;transform:translateY(-50%);font-size:28px}
+#lb .next{right:18px;top:50%;transform:translateY(-50%);font-size:28px}
+@media (max-width: 640px){
+  #lb .stage{padding:12px}
+  #lb img{max-width:calc(100vw - 88px);max-height:calc(100vh - 88px)}
+  #lb .ctrl{width:46px;height:46px}
+  #lb .close{top:12px;right:12px}
+  #lb .prev{left:12px}
+  #lb .next{right:12px}
+}
+</style>
+
+<section class="section pt-0 overflow-x-hidden">
+  <div class="container grid lg:grid-cols-2 gap-6 items-start">
+    <div>
+      <div id="mainImage" class="gallery-main cursor-zoom-in" data-index="0">
+        {% with img=car.images.first %}
+          {% if img %}
+            <img id="mainImg" src="{{ img.image.url }}" alt="{{ img.alt|default:car.title }}">
+          {% endif %}
+        {% endwith %}
+      </div>
+
+      <div class="gallery-thumbs">
+        {% for img in car.images.all %}
+          <button type="button" class="gallery-thumb" data-index="{{ forloop.counter0 }}" data-src="{{ img.image.url }}" aria-label="preview thumbnail">
+            <img src="{{ img.image.url }}" alt="{{ img.alt|default:car.title }}" loading="lazy" decoding="async">
+          </button>
+        {% empty %}<div class="text-white/60">No images</div>{% endfor %}
+      </div>
+    </div>
+
+    <div class="min-w-0">
+      <h1 class="text-2xl md:text-3xl font-semibold mb-2 text-white">{{ car.title }}</h1>
+      <div class="text-white/60 mb-4">{{ car.year }} • {{ car.make }} {{ car.model }}</div>
+
+      {% if car.is_sold %}
+        <div class="text-2xl font-semibold text-red-500 mb-4">SOLD</div>
+      {% elif car.price %}
+        <div class="text-2xl font-semibold text-brand mb-4">${{ car.price|intcomma }}</div>
+      {% endif %}
+
+      <dl class="spec-grid">
+        <dt class="text-white/50">Body</dt><dd class="text-white break-words">{{ car.body_type }}</dd>
+        <dt class="text-white/50">Mileage</dt><dd class="text-white break-words">{{ car.mileage }}</dd>
+        <dt class="text-white/50">VIN</dt><dd class="text-white break-words">{{ car.vin }}</dd>
+        <dt class="text-white/50">Transmission</dt><dd class="text-white break-words">{{ car.transmission }}</dd>
+        <dt class="text-white/50">Engine</dt><dd class="text-white break-words">{{ car.engine }}</dd>
+        <dt class="text-white/50">Stock #</dt><dd class="text-white break-words">{{ car.stock_no }}</dd>
+        <dt class="text-white/50">Exterior</dt><dd class="text-white break-words">{{ car.exterior }}</dd>
+        <dt class="text-white/50">Interior</dt><dd class="text-white break-words">{{ car.interior }}</dd>
+      </dl>
+
+      <div class="divider my-6"></div>
+      <div class="prose prose-invert max-w-none break-words [overflow-wrap:anywhere]">
+        {{ car.description|linebreaks }}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section pt-0">
+  <div class="container">
+    <div class="card-dark card-pad shadow-soft">
+      <h2 class="font-semibold mb-3 text-white">Ask about this car</h2>
+      <form id="carLeadForm" method="post" action="{% url 'car_lead' slug=car.slug %}" class="grid md:grid-cols-2 gap-3">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="md:col-span-2">
+          <button type="submit" class="btn btn-primary">Send</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div id="lb" aria-modal="true" role="dialog">
+  <div class="backdrop" aria-hidden="true"></div>
+  <button class="ctrl close" type="button" aria-label="Close">✕</button>
+  <button class="ctrl prev"  type="button" aria-label="Previous">❮</button>
+  <button class="ctrl next"  type="button" aria-label="Next">❯</button>
+  <div class="stage">
+    <img id="lbImg" alt="">
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    const mainWrap = document.getElementById('mainImage');
+    const mainImg  = document.getElementById('mainImg');
+    const thumbs   = Array.from(document.querySelectorAll('.gallery-thumb'));
+    const srcs = thumbs.map(b => b.dataset.src);
+    let current = 0;
+    function select(i){
+      if (!thumbs.length) return;
+      current = (i + thumbs.length) % thumbs.length;
+      thumbs.forEach((el,idx)=>{ el.dataset.selected = (idx===current) ? 'true' : 'false'; });
+      if (mainImg) mainImg.src = srcs[current];
+    }
+    thumbs.forEach((el,i)=>{ el.addEventListener('click', (e)=>{ e.preventDefault(); select(i); openLb(i); }); });
+    if (thumbs.length) select(0);
+
+    const lb      = document.getElementById('lb');
+    const lbImg   = document.getElementById('lbImg');
+    const lbPrev  = lb.querySelector('.prev');
+    const lbNext  = lb.querySelector('.next');
+    const lbClose = lb.querySelector('.close');
+    const backdrop= lb.querySelector('.backdrop');
+
+    function lockScroll(on){ document.documentElement.style.overflow = on ? 'hidden' : ''; document.body.style.overflow = on ? 'hidden' : ''; }
+    function show(i){ current = (i + srcs.length) % srcs.length; lbImg.src = srcs[current]; }
+    function openLb(i){ lb.classList.add('on'); lockScroll(true); show(i); }
+    function closeLb(){ lb.classList.remove('on'); lockScroll(false); }
+
+    mainWrap?.addEventListener('click', ()=> openLb(current));
+    lbPrev.addEventListener('click', ()=> show(current-1));
+    lbNext.addEventListener('click', ()=> show(current+1));
+    lbClose.addEventListener('click', closeLb);
+    backdrop.addEventListener('click', closeLb);
+
+    window.addEventListener('keydown', (e)=>{
+      if (!lb.classList.contains('on')) return;
+      if (e.key === 'Escape') closeLb();
+      if (e.key === 'ArrowRight') show(current+1);
+      if (e.key === 'ArrowLeft') show(current-1);
+    });
+  });
+</script>
+
+<script>
+  (function(){
+    const form = document.getElementById('carLeadForm');
+    if(!form) return;
+
+    const email = form.querySelector('input[type="email"], input[name="email" i], input[name*="mail" i]');
+    if(email){
+      if(!email.placeholder) email.placeholder = 'your-email@address.com';
+      email.setAttribute('inputmode','email');
+      email.setAttribute('autocomplete','email');
+    }
+
+    const phone = form.querySelector('input[type="tel"], input[name*="phone" i]');
+    if(!phone) return;
+
+    function digitsOnly(s){ return (s||'').replace(/\D/g,''); }
+
+    phone.setAttribute('inputmode','numeric');
+    phone.setAttribute('autocomplete','tel');
+    phone.setAttribute('maxlength','10');
+    phone.setAttribute('pattern','^\\d{10}$');
+    if(!phone.placeholder) phone.placeholder = '+1 (xxx)-xxx-xx-xx';
+
+    phone.addEventListener('keydown', function(e){
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const allow = ["Backspace","Delete","ArrowLeft","ArrowRight","Tab","Home","End"];
+      if (allow.includes(e.key)) return;
+      if (!/^\d$/.test(e.key)) { e.preventDefault(); return; }
+      if (digitsOnly(phone.value).length >= 10) { e.preventDefault(); }
+    });
+
+    phone.addEventListener('paste', function(e){
+      e.preventDefault();
+      const t = (e.clipboardData || window.clipboardData).getData('text') || '';
+      phone.value = digitsOnly(t).slice(0,10);
+    });
+
+    phone.addEventListener('input', function(){
+      phone.value = digitsOnly(phone.value).slice(0,10);
+    });
+  })();
+</script>
+{% endblock %}

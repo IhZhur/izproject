@@ -1,0 +1,5 @@
+# templates/robots.txt
+User-agent: *
+Disallow: /admin/
+Allow: /
+Sitemap: https://iztestproject.icu/sitemap.xml

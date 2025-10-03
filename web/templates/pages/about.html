@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}About — {{ SITE.site_name|default:"About" }}{% endblock %}
+{% block og_title %}About {{ SITE.site_name }}{% endblock %}
+{% block og_desc %}Who we are, what we do, and why enthusiasts choose us.{% endblock %}
+{% block og_image %}{% static 'img/og-default.jpg' %}{% endblock %}
+
+{% block content %}
+  <!-- HERO full-bleed -->
+  <section class="relative overflow-hidden min-h-[65svh] md:min-h-[75svh]">
+    <div class="full-bleed">
+      <img src="{% static 'img/hero-about.jpg' %}" alt="Classic car at our showroom" class="h-full w-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/80"></div>
+    </div>
+
+    <div class="container relative z-10 py-16 md:py-24 lg:py-32">
+      <span class="badge badge-soft text-sm md:text-base">About us</span>
+      <h1 class="mt-4 text-5xl md:text-7xl font-semibold leading-tight">Classic cars. Modern service.</h1>
+      <p class="mt-4 max-w-3xl text-lg md:text-2xl text-white/80">We source, inspect, finance, and ship enthusiast vehicles with transparent pricing and attentive support.</p>
+      <div class="mt-8 flex gap-3">
+        <a href="/cars/" class="btn btn-primary">Browse cars</a>
+        <a href="/contact/" class="btn btn-ghost">Contact</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US: text + image -->
+  <section class="section">
+    <div class="container grid gap-10 lg:grid-cols-2 items-center">
+      <div>
+        <h2 class="text-3xl md:text-4xl font-semibold">Why choose us</h2>
+        <p class="mt-4 text-white/70">We keep a carefully curated inventory of classics and enthusiast cars. Every vehicle is documented with clear photos and condition notes. Our team guides you from first inquiry to final delivery with financing and shipping support.</p>
+        <div class="mt-6 flex gap-3">
+          <a href="/cars/" class="btn btn-secondary">Our inventory</a>
+          <a href="/contact/" class="btn btn-primary">Contact us</a>
+        </div>
+      </div>
+      <div class="rounded-2xl overflow-hidden border border-neutral-800 ring-1 ring-inset ring-white/10 shadow-soft">
+        <div class="aspect-[16/9] md:aspect-[4/3] w-full">
+          <img src="{% static 'img/about/why.jpg' %}" alt="Showroom with classic cars" class="w-full h-full object-cover">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT OUR DEALERSHIP: restrained media height -->
+  <section class="section pt-0">
+    <div class="container">
+      <div class="card max-w-6xl mx-auto">
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner px-3 md:px-4 lg:px-5">
+            <!-- Image height tightened: 16:9 on mobile, 21:9 on md+ -->
+            <div class="rounded-xl overflow-hidden border border-neutral-800 ring-1 ring-inset ring-white/10 shadow-soft aspect-video md:aspect-[21/9]">
+              <img src="{% static 'img/about/dealership.jpg' %}" alt="Outside view of our dealership" class="w-full h-full object-cover">
+            </div>
+            <h2 class="card-title mt-6">About our dealership</h2>
+            <div class="prose prose-invert max-w-3xl">
+              <p>Founded by enthusiasts, {{ SITE.site_name|default:"our team" }} focuses on authentic, well‑kept vehicles that are a joy to drive and own. We verify provenance, highlight condition, and provide the context collectors care about.</p>
+              <p>From sourcing to inspection, we emphasize clarity. You get straightforward numbers, transparent fees, and help with financing and nationwide shipping. Whether it is your first classic or an addition to a growing collection, we aim to make the process simple and confident.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPIs compact -->
+  <section class="section pt-0">
+    <div class="container grid gap-4 md:grid-cols-4">
+      <div class="card"><div class="card-body"><div class="card-inner text-center py-6"><div class="text-4xl md:text-5xl font-semibold">15+</div><p class="text-white/60">years with classics</p></div></div></div>
+      <div class="card"><div class="card-body"><div class="card-inner text-center py-6"><div class="text-4xl md:text-5xl font-semibold">300+</div><p class="text-white/60">cars shipped</p></div></div></div>
+      <div class="card"><div class="card-body"><div class="card-inner text-center py-6"><div class="text-4xl md:text-5xl font-semibold">48</div><p class="text-white/60">states served</p></div></div></div>
+      <div class="card"><div class="card-body"><div class="card-inner text-center py-6"><div class="text-4xl md:text-5xl font-semibold">4.9</div><p class="text-white/60">avg. rating</p></div></div></div>
+    </div>
+  </section>
+
+  <!-- VALUES: three cards -->
+  <section class="section pt-0">
+    <div class="container grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <article class="card"><div class="card-body"><div class="card-inner"><h3 class="card-title">Commitment to quality</h3><p class="text-white/70">Each vehicle is reviewed with multi‑point checks, drives, and documentation so you know exactly what you are buying.</p></div></div></article>
+      <article class="card"><div class="card-body"><div class="card-inner"><h3 class="card-title">Customer service you can trust</h3><p class="text-white/70">Responsive guidance, financing assistance, and shipping coordination to your door.</p></div></div></article>
+      <article class="card"><div class="card-body"><div class="card-inner"><h3 class="card-title">Transparent pricing</h3><p class="text-white/70">Clear out‑the‑door numbers with no hidden fees. We respect your time and budget.</p></div></div></article>
+    </div>
+  </section>
+
+  <!-- VISIT US / MAP (embed fallback chain) -->
+  <!-- VISIT US — unified card: map on top, details under it -->
+  <section class="section pt-0">
+    <div class="container">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-inner">
+            <h2 class="card-title">Visit us</h2>
+
+            <!-- Map first -->
+            <div class="rounded-xl overflow-hidden ring-1 ring-inset ring-white/10 shadow-soft aspect-video md:aspect-[21/9]">
+              {% if SITE.map_embed %}
+                {{ SITE.map_embed|safe }}
+              {% elif SITE.lat and SITE.lng %}
+                <iframe title="Map to {{ SITE.site_name|default:'our location' }}" src="https://www.google.com/maps?q={{ SITE.lat }},{{ SITE.lng }}&z=14&output=embed" class="w-full h-full" style="border:0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              {% elif SITE.address %}
+                <iframe title="Map to {{ SITE.site_name|default:'our location' }}" src="https://www.google.com/maps?q={{ SITE.address|urlencode }}&z=14&output=embed" class="w-full h-full" style="border:0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              {% else %}
+                <div class="w-full h-full grid place-items-center text-white/60">Set SITE.address or coords to show a live Google Map.</div>
+              {% endif %}
+            </div>
+
+            <!-- Details under the map -->
+            <address class="not-italic mt-4 grid gap-3 sm:grid-cols-2 text-white/80">
+              <div>
+                {% if SITE.address %}
+                  <p><span class="text-white/60">Address:</span> {{ SITE.address }}</p>
+                {% endif %}
+                {% if SITE.hours %}
+                  <p><span class="text-white/60">Hours:</span> {{ SITE.hours }}</p>
+                {% endif %}
+              </div>
+              <div>
+                {% if SITE.phone %}
+                  <p><span class="text-white/60">Phone:</span> <a class="underline hover:no-underline" href="tel:{{ SITE.phone }}">{{ SITE.phone }}</a></p>
+                {% endif %}
+                {% if SITE.email %}
+                  <p><span class="text-white/60">Email:</span> <a class="underline hover:no-underline" href="mailto:{{ SITE.email }}">{{ SITE.email }}</a></p>
+                {% endif %}
+              </div>
+            </address>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA STRIP -->
+  <section class="section">
+    <div class="container card bg-white/5">
+      <div class="card-body">
+        <div class="card-inner flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <h3 class="card-title">Ready to find your car?</h3>
+            <p class="text-white/70">Browse new arrivals or talk to a specialist.</p>
+          </div>
+          <div class="flex gap-3">
+            <a class="btn btn-primary" href="/cars/">View inventory</a>
+            <a class="btn btn-ghost" href="/contact/">Contact us</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

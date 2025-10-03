@@ -1,0 +1,31 @@
+iztestproject.icu {
+	handle_path /media/* {
+		root * /media
+		file_server
+	}
+
+	# всё остальное — в Django
+	handle {
+		reverse_proxy web:8000 {
+			health_uri /healthz/
+			health_interval 2s
+			health_timeout 1s
+			health_headers {
+				X-Forwarded-Proto https
+				Host iztestproject.icu
+			}
+			# при желании: health_follow_redirects
+		}
+	}
+}
+
+portainer.iztestproject.icu {
+	reverse_proxy portainer:9000
+}
+
+status.iztestproject.icu {
+	basic_auth {
+		admin $2a$14$PPSHIe1lgKUGRO5VUEV2b.C8XWNWnbbRv8s9.GrtbGrDSBSb.0S6K
+	}
+	reverse_proxy uptime:3001
+}

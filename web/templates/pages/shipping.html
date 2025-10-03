@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Shipping — {{ SITE.site_name|default:"Shipping" }}{% endblock %}
+{% block og_title %}Nationwide & worldwide shipping{% endblock %}
+{% block og_desc %}Fully insured door-to-door delivery. Open or enclosed carriers.{% endblock %}
+{% block og_image %}{% static 'img/og-default.jpg' %}{% endblock %}
+
+{% block content %}
+  <!-- HERO full-bleed -->
+  <section class="relative overflow-hidden min-h-[65svh] md:min-h-[75svh]">
+    <div class="full-bleed">
+      <img src="{% static 'img/hero-shipping.jpg' %}" alt="Cars being loaded for shipping" class="h-full w-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/80"></div>
+    </div>
+
+    <div class="container relative z-10 py-14 md:py-24 lg:py-32">
+      <span class="badge badge-soft text-sm md:text-base">Shipping</span>
+      <h1 class="mt-4 text-5xl md:text-7xl font-semibold leading-tight">Effortless car shipping services</h1>
+      <p class="mt-4 max-w-3xl text-lg md:text-2xl text-white/80">
+        We ship across the U.S. and internationally with tracking and insurance.
+      </p>
+      <a href="{% url 'financing' %}" class="btn btn-primary mt-8 min-h-[44px]">Apply now</a>
+    </div>
+  </section>
+
+  <!-- Steps -->
+  <section class="section">
+    <div class="container grid gap-6 md:grid-cols-4">
+      <div class="card">
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner px-3 md:px-4 lg:px-5 space-y-3">
+            <img src="{% static 'img/shipping/pickup.jpg' %}" alt="Pick-up" class="h-28 md:h-32 w-full object-cover rounded-xl">
+            <h3 class="card-title">Pick-up</h3>
+            <p class="text-white/70">We schedule pick-up at the seller or our facility.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner px-3 md:px-4 lg:px-5 space-y-3">
+            <img src="{% static 'img/shipping/insurance.jpg' %}" alt="Insurance" class="h-28 md:h-32 w-full object-cover rounded-xl">
+            <h3 class="card-title">Insurance</h3>
+            <p class="text-white/70">Your car is covered during transit.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner px-3 md:px-4 lg:px-5 space-y-3">
+            <img src="{% static 'img/shipping/tracking.jpg' %}" alt="Tracking" class="h-28 md:h-32 w-full object-cover rounded-xl">
+            <h3 class="card-title">Tracking</h3>
+            <p class="text-white/70">We provide status updates throughout.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner px-3 md:px-4 lg:px-5 space-y-3">
+            <img src="{% static 'img/shipping/delivery.jpg' %}" alt="Delivery" class="h-28 md:h-32 w-full object-cover rounded-xl">
+            <h3 class="card-title">Delivery</h3>
+            <p class="text-white/70">Door-to-door handoff, quick inspection.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing hints -->
+  <section class="section">
+    <div class="container grid gap-6 md:grid-cols-3">
+      <div class="card">
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner px-3 md:px-4 lg:px-5 space-y-3">
+            <img src="{% static 'img/shipping/local.jpg' %}" alt="Local shipping" class="h-28 md:h-32 w-full object-cover rounded-xl">
+            <h3 class="card-title">Local (≤300 mi)</h3>
+            <p class="text-white/70">Typically $2–$3 per mile</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner px-3 md:px-4 lg:px-5 space-y-3">
+            <img src="{% static 'img/shipping/crosscountry.jpg' %}" alt="Cross-country" class="h-28 md:h-32 w-full object-cover rounded-xl">
+            <h3 class="card-title">Cross-country</h3>
+            <p class="text-white/70">Flat quotes by route and carrier</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner px-3 md:px-4 lg:px-5 space-y-3">
+            <img src="{% static 'img/shipping/enclosed.jpg' %}" alt="Enclosed carriers" class="h-28 md:h-32 w-full object-cover rounded-xl">
+            <h3 class="card-title">Enclosed</h3>
+            <p class="text-white/70">Premium carriers for high-value cars</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote form -->
+  <section class="section">
+    <div class="container">
+      <form method="post" action="" class="card max-w-5xl mx-auto" aria-label="Shipping quote">
+        {% csrf_token %}
+        <div class="card-body p-6 md:p-8">
+          <div class="card-inner px-3 md:px-4 lg:px-5">
+            <img src="{% static 'img/shipping/form.jpg' %}" alt="Get a shipping quote" class="h-32 md:h-40 w-full object-cover rounded-xl mb-4">
+            <h2 class="card-title">Request a shipping quote</h2>
+
+            <!-- поля -->
+            <div class="mt-6 form-grid grid gap-6 sm:grid-cols-2">
+              <label class="label block">
+                <span class="block mb-2">Full name</span>
+                <input class="input" type="text" name="name" required>
+              </label>
+              <label class="label block">
+                <span class="block mb-2">Email</span>
+                <input class="input" type="email" name="email" inputmode="email" autocomplete="email" placeholder="your-email@address.com" required>
+              </label>
+              <label class="label block">
+                <span class="block mb-2">Phone</span>
+                <input class="input" type="tel" name="phone" inputmode="numeric" autocomplete="tel" placeholder="+1 (xxx)-xxx-xx-xx" maxlength="10" pattern="^\d{10}$">
+              </label>
+              <label class="label block">
+                <span class="block mb-2">Car</span>
+                <input class="input" type="text" name="car" placeholder="Year Make Model">
+              </label>
+              <label class="label block">
+                <span class="block mb-2">Pick-up ZIP</span>
+                <input class="input" type="text" name="from_zip" inputmode="numeric">
+              </label>
+              <label class="label block">
+                <span class="block mb-2">Delivery ZIP</span>
+                <input class="input" type="text" name="to_zip" inputmode="numeric">
+              </label>
+              <label class="label block">
+                <span class="block mb-2">Carrier type</span>
+                <select class="select" name="carrier">
+                  <option value="open">Open</option>
+                  <option value="enclosed">Enclosed</option>
+                  <option value="either">Either</option>
+                </select>
+              </label>
+              <label class="label block">
+                <span class="block mb-2">Timeline</span>
+                <select class="select" name="timeline">
+                  <option value="asap">ASAP</option>
+                  <option value="flex">Flexible</option>
+                </select>
+              </label>
+            </div>
+
+            <!-- notes -->
+            <label class="label block mt-6">
+              <span class="block mb-2">Notes</span>
+              <textarea class="textarea" name="message" rows="5" placeholder="Access notes, special requests…"></textarea>
+            </label>
+
+            <!-- низ формы -->
+            <div class="mt-6 pt-2 flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <p class="text-xs text-white/50">We will reply with a quote and ETA.</p>
+              <button type="submit" class="btn btn-primary min-h-[44px] self-end sm:self-auto">Request quote</button>
+            </div>
+          </div>
+        </div>
+        <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off"> {# honeypot #}
+      </form>
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function(){
+  const form = document.querySelector('form[aria-label="Shipping quote"]');
+  if(!form) return;
+
+  // email placeholder
+  const email = form.querySelector('input[type="email"], input[name="email" i], input[name*="mail" i]');
+  if(email){
+    if(!email.placeholder) email.placeholder = 'your-email@address.com';
+    email.setAttribute('inputmode','email');
+    email.setAttribute('autocomplete','email');
+  }
+
+  // phone: только цифры, максимум 10
+  const phone = form.querySelector('input[type="tel"], input[name*="phone" i]');
+  if(!phone) return;
+
+  function digitsOnly(s){ return (s||'').replace(/\D/g,''); }
+
+  phone.setAttribute('inputmode','numeric');
+  phone.setAttribute('autocomplete','tel');
+  phone.setAttribute('maxlength','10');
+  phone.setAttribute('pattern','^\\d{10}$');
+  if(!phone.placeholder) phone.placeholder = '+1 (xxx)-xxx-xx-xx';
+
+  phone.addEventListener('keydown', function(e){
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    const allow = ["Backspace","Delete","ArrowLeft","ArrowRight","Tab","Home","End"];
+    if (allow.includes(e.key)) return;
+    if (!/^\d$/.test(e.key)) { e.preventDefault(); return; }
+    if (digitsOnly(phone.value).length >= 10) { e.preventDefault(); }
+  });
+
+  phone.addEventListener('paste', function(e){
+    e.preventDefault();
+    const t = (e.clipboardData || window.clipboardData).getData('text') || '';
+    phone.value = digitsOnly(t).slice(0,10);
+  });
+
+  phone.addEventListener('input', function(){
+    phone.value = digitsOnly(phone.value).slice(0,10);
+  });
+})();
+</script>
+{% endblock %}

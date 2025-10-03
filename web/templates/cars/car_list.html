@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}Cars for sale{% endblock %}
+
+{% block content %}
+<section class="section pt-0">
+  <div class="container">
+    <h1 class="text-2xl md:text-3xl font-semibold mb-4 text-white">Cars for sale</h1>
+
+    <form method="get" class="card-dark shadow-soft card-pad mb-6 sticky top-[68px] z-10">
+      <div class="grid md:grid-cols-6 gap-3">
+        <input type="text" name="make" value="{{ request.GET.make }}" placeholder="Make" class="input">
+        <input type="text" name="model" value="{{ request.GET.model }}" placeholder="Model" class="input">
+        <input type="number" name="year_min" value="{{ request.GET.year_min }}" placeholder="Year ≥" class="input">
+        <input type="number" name="year_max" value="{{ request.GET.year_max }}" placeholder="Year ≤" class="input">
+        <input type="number" name="price_max" value="{{ request.GET.price_max }}" placeholder="Price ≤" class="input">
+        <select name="ordering" class="select">
+          <option value="">Sort</option>
+          <option value="created" {% if request.GET.ordering == "created" %}selected{% endif %}>Newest</option>
+          <option value="-price" {% if request.GET.ordering == "-price" %}selected{% endif %}>Price ↓</option>
+          <option value="price" {% if request.GET.ordering == "price" %}selected{% endif %}>Price ↑</option>
+          <option value="-year" {% if request.GET.ordering == "-year" %}selected{% endif %}>Year ↓</option>
+          <option value="year" {% if request.GET.ordering == "year" %}selected{% endif %}>Year ↑</option>
+        </select>
+      </div>
+      <div class="mt-3 flex gap-2">
+        <button class="btn btn-primary">Apply filters</button>
+        <a href="{% url 'cars_list' %}" class="btn btn-outline">Reset</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="section pt-0">
+  <div class="container">
+    <div class="cards-grid">
+      {% for car in cars %}
+        <a href="{% url 'car_detail' slug=car.slug %}" class="card-dark shadow-soft overflow-hidden group">
+          <div class="relative aspect-[4/3] bg-neutral-900">
+            {% with img=car.images.all.0 %}
+              {% if img %}
+                <img src="{{ img.image.url }}" alt="{{ img.alt }}" loading="lazy" decoding="async" class="h-full w-full object-cover transition group-hover:scale-[1.02]">
+              {% endif %}
+            {% endwith %}
+            
+            {% if car.is_sold %}
+              <span class="sticker-price" style="background:#dc2626">SOLD</span> {# насыщенный красный #dc2626 ~ red-600 #}
+            {% elif car.price %}
+              <span class="sticker-price">${{ car.price|intcomma }}</span>
+            {% endif %}
+          </div>
+          <div class="card-pad space-y-1">
+            <div class="flex items-center justify-between">
+              <h3 class="font-semibold text-white">{{ car.title }}</h3>
+            </div>
+            <div class="text-xs text-white/60">{{ car.year }} • {{ car.make }} {{ car.model }}</div>
+          </div>
+        </a>
+      {% empty %}
+        <p class="text-white/70">No cars found.</p>
+      {% endfor %}
+    </div>
+
+    <div class="mt-6 flex items-center gap-2 text-white/80">
+      {% if page_obj.has_previous %}
+        <a href="?{% if request.GET %}{{ request.GET.urlencode|cut:'page='|cut:'&&' }}&{% endif %}page={{ page_obj.previous_page_number }}" class="btn btn-ghost">Prev</a>
+      {% endif %}
+      <span class="kpi">Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}
+        <a href="?{% if request.GET %}{{ request.GET.urlencode|cut:'page='|cut:'&&' }}&{% endif %}page={{ page_obj.next_page_number }}" class="btn btn-ghost">Next</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

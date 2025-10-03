@@ -1,0 +1,159 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>{% block title %}{{ SITE.site_name|default:"Site" }}{% endblock %}</title>
+  <link rel="icon" href="{% static 'img/favicon.ico' %}">
+  <link rel="stylesheet" href="{% static 'build/app.css' %}">
+  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- OG -->
+  <meta property="og:site_name" content="{{ SITE.site_name }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:title" content="{% block og_title %}{{ SITE.site_name }}{% endblock %}">
+  <meta property="og:description" content="{% block og_desc %}Cars for sale{% endblock %}">
+  <meta property="og:image" content="{% block og_image %}{% static 'img/og-default.png' %}{% endblock %}">
+  <meta name="twitter:card" content="summary_large_image">
+
+  {% block head_extra %}{% endblock %}
+</head>
+
+<body class="min-h-screen bg-neutral-950 text-white/90 antialiased font-sans">
+  {# top strip #}
+  {% if SITE.address or SITE.phone %}
+  <div class="bg-black/90 text-white text-sm md:text-base border-b border-white/10">
+    <div class="container px-4 py-2.5 md:py-3 flex flex-col gap-1 items-center sm:flex-row sm:justify-between">
+      <div class="text-white/70">
+        {% if SITE.address %}Address:
+          <a class="underline hover:text-brand" href="https://maps.google.com/?q={{ SITE.address|urlencode }}" target="_blank" rel="noopener">{{ SITE.address }}</a>
+        {% endif %}
+      </div>
+      <div>
+        {% if SITE.phone %}Phone:
+          <a class="underline hover:text-brand" href="tel:{{ SITE.phone }}">{{ SITE.phone }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% url 'home' as url_home %}
+  {% url 'cars_list' as url_cars %}
+  {% url 'financing' as url_financing %}
+  {% url 'shipping' as url_shipping %}
+  {% url 'about' as url_about %}
+  {% url 'contact' as url_contact %}
+
+  {# header #}
+  <header class="sticky top-0 z-40 border-b border-white/10 bg-black/80 backdrop-blur">
+    <div class="container px-4 py-4 md:py-5 flex items-center gap-6">
+      <a href="{{ url_home|default:'/' }}" class="shrink-0 flex items-center gap-3">
+        {% if SITE.logo %}
+          <img src="{{ SITE.logo.url }}" alt="{{ SITE.site_name }}" class="h-9">
+        {% else %}
+          <span class="text-2xl md:text-3xl font-semibold text-white">{{ SITE.site_name }}</span>
+        {% endif %}
+      </a>
+
+      <nav class="hidden md:flex gap-6 text-base">
+        {% with p=request.path %}
+          <a href="{{ url_home|default:'/' }}" class="nav-link {% if p == url_home %}nav-active{% endif %}">Home</a>
+          <a href="{{ url_cars|default:'/cars/' }}" class="nav-link {% if p|slice:":6" == '/cars/' %}nav-active{% endif %}">Cars for sale</a>
+          <a href="{{ url_financing|default:'/financing/' }}" class="nav-link {% if p == url_financing %}nav-active{% endif %}">Financing</a>
+          <a href="{{ url_shipping|default:'/shipping/' }}" class="nav-link {% if p == url_shipping %}nav-active{% endif %}">Shipping</a>
+          <a href="{{ url_about|default:'/about/' }}" class="nav-link {% if p == url_about %}nav-active{% endif %}">About</a>
+          <a href="{{ url_contact|default:'/contact/' }}" class="nav-link {% if p == url_contact %}nav-active{% endif %}">Contact</a>
+        {% endwith %}
+      </nav>
+
+      <a href="{{ url_cars|default:'/cars/' }}" class="ml-auto btn btn-primary btn-lg hover-lift">Browse cars</a>
+      <button type="button" class="md:hidden ml-2 btn btn-ghost" id="menuBtn" aria-expanded="false">Menu</button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="md:hidden hidden border-t border-white/10 bg-black/90">
+      <div class="container px-4 py-3 grid gap-2 text-base">
+        <a class="nav-link" href="{{ url_home|default:'/' }}">Home</a>
+        <a class="nav-link" href="{{ url_cars|default:'/cars/' }}">Cars for sale</a>
+        <a class="nav-link" href="{{ url_financing|default:'/financing/' }}">Financing</a>
+        <a class="nav-link" href="{{ url_shipping|default:'/shipping/' }}">Shipping</a>
+        <a class="nav-link" href="{{ url_about|default:'/about/' }}">About</a>
+        <a class="nav-link" href="{{ url_contact|default:'/contact/' }}">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="py-10 md:py-12">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="border-t border-white/10 text-sm text-white/70">
+    <div class="container px-4 py-10 grid gap-6 md:grid-cols-3">
+      <div>
+        <div class="font-medium text-white mb-2">Contact</div>
+        {% if SITE.address %}
+          <a class="underline hover:text-brand"
+            href="https://maps.google.com/?q={{ SITE.address|urlencode }}"
+            target="_blank" rel="noopener">{{ SITE.address }}</a>
+        {% endif %}
+        {% if SITE.phone %}<a href="tel:{{ SITE.phone }}" class="mt-2 inline-flex btn btn-secondary">{{ SITE.phone }}</a>{% endif %}
+      </div>
+      <div>
+        <div class="font-medium text-white mb-2">Links</div>
+        <nav class="flex flex-col gap-1">
+          <a href="/privacy/" class="hover:text-brand">Privacy</a>
+          <a href="/terms/" class="hover:text-brand">Terms</a>
+        </nav>
+      </div>
+      <div class="md:text-right">© {% now "Y" %} {{ SITE.site_name }}</div>
+    </div>
+  </footer>
+
+  {% block scripts %}{% endblock %}
+
+  <script>
+    // simple mobile toggle
+    (function(){
+      var b = document.getElementById('menuBtn');
+      var m = document.getElementById('mobileMenu');
+      if(b && m){
+        b.addEventListener('click', ()=>{
+          m.classList.toggle('hidden');
+          const ex = b.getAttribute('aria-expanded') === 'true';
+          b.setAttribute('aria-expanded', String(!ex));
+        });
+      }
+    })();
+  </script>
+
+  {% if SITE.chatra_id %}
+  <script>
+    (function(d,w){ w.ChatraID='{{ SITE.chatra_id|escapejs }}';
+      var s=d.createElement('script'); s.async=true; s.src='https://call.chatra.io/chatra.js';
+      (d.head||d.body).appendChild(s);
+    })(document,window);
+  </script>
+  {% endif %}
+
+  {% if SITE.pixel_id %}
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init','{{ SITE.pixel_id|escapejs }}'); fbq('track','PageView');
+  </script>
+
+  
+
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ SITE.pixel_id|urlencode }}&ev=PageView&noscript=1"></noscript>
+  {% endif %}
+</body>
+</html>

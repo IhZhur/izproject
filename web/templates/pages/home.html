@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<!-- HERO: full-bleed + full-height как на About/Financing -->
+<section class="relative overflow-hidden min-h-[65svh] md:min-h-[75svh]">
+  <div class="full-bleed">
+    <img fetchpriority="high" src="{% static 'img/home-hero.jpg' %}" alt="{{ SITE.site_name }} showroom" class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/55 to-black/85"></div>
+  </div>
+  <div class="container relative z-10 py-16 md:py-24 lg:py-32">
+    <span class="kicker">Premium classics</span>
+    <h1 class="mt-4 text-5xl md:text-7xl font-semibold">Timeless American Classics</h1>
+    <p class="mt-4 max-w-xl text-white/80">Curated inventory. Transparent pricing. Worldwide shipping.</p>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a href="{% url 'cars_list' %}" class="btn btn-primary btn-lg">Browse cars</a>
+      <a href="{% url 'contact' %}" class="btn btn-ghost btn-lg">Contact us</a>
+    </div>
+  </div>
+</section>
+
+<!-- Benefits -->
+<section class="section">
+  <div class="container grid md:grid-cols-3 gap-4">
+    <div class="card card-pad"><h3>Fast shipping</h3><p class="mt-1 text-white/70">Nationwide delivery options.</p></div>
+    <div class="card card-pad"><h3>Flexible financing</h3><p class="mt-1 text-white/70">Pre-approval in minutes.</p></div>
+    <div class="card card-pad"><h3>Verified inventory</h3><p class="mt-1 text-white/70">Inspected and ready to drive.</p></div>
+  </div>
+</section>
+
+<!-- Latest arrivals -->
+<section class="section pt-0">
+  <div class="container">
+    <div class="flex items-end justify-between mb-4">
+      <h2 class="text-xl">Latest arrivals</h2>
+      <a href="{% url 'cars_list' %}" class="text-sm hover:text-brand">View all cars</a>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {% for car in featured_cars %}
+        <a href="{% url 'cars_list' %}" class="card overflow-hidden group hover-lift">
+          <div class="aspect-[4/3] bg-neutral-800 relative">
+            {% with img=car.images.first %}
+              {% if img %}
+                <img src="{{ img.image.url }}" alt="{{ img.alt }}" class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]">
+              {% endif %}
+            {% endwith %}
+            {% if car.price %}<span class="price-chip">${{ car.price|floatformat:0 }}</span>{% endif %}
+          </div>
+          <div class="card-pad space-y-1">
+            <h3 class="font-medium text-white">{{ car.title }}</h3>
+            <div class="text-xs text-white/60">{{ car.year }} · {{ car.mileage }} mi</div>
+          </div>
+        </a>
+      {% empty %}
+        <p>No cars yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- CTA strip -->
+<!-- CTA strip -->
+<section class="section pt-0">
+  <div class="container">
+    <div class="card card-pad flex flex-col md:flex-row items-center justify-between gap-3">
+      <p class="text-sm text-white/80">Questions about financing or shipping?</p>
+      <div class="flex gap-3">
+        <a href="{% url 'financing' %}" class="btn btn-secondary">Financing</a>
+        <a href="{% url 'shipping' %}" class="btn btn-secondary">Shipping</a>
+        <a href="{% url 'contact' %}" class="btn btn-primary">Contact</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section pt-0">
+  <div class="container">
+    <div class="prose prose-invert">
+      <p>We offer a curated selection of cars with transparent pricing and worldwide delivery options. Browse our latest arrivals or contact us to arrange a viewing and shipping.</p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

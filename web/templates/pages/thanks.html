@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Thank you{% endblock %}
+
+{% block content %}
+<meta http-equiv="refresh" content="7; url=/" />
+<div class="container mx-auto px-4 py-16">
+  <div class="mx-auto max-w-xl rounded-2xl border bg-white p-8 text-center shadow">
+    <h1 class="text-2xl font-semibold">Thank you for contacting us.</h1>
+    <p class="text-gray-600 mt-2">We will contact you within 1-2 days.</p>
+    <p class="text-sm text-gray-500 mt-4">Redirecting to home in 7 seconds.</p>
+    <a href="/" class="mt-6 inline-block rounded-xl bg-gray-900 px-4 py-2 text-white">Go to home</a>
+  </div>
+</div>
+<script>setTimeout(function(){ location.href="/"; }, 7000);</script>
+{% endblock %}
