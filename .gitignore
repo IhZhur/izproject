@@ -1,0 +1,22 @@
+# Python/Django
+__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Node
+node_modules/
+
+# Secrets
+.env
+
+# Build artifacts
+static/build/
+web/staticfiles/
+media/
+
+# Editors/OS
+.vscode/
+.DS_Store
+
+# Tailwind бинарь, если не используете LFS
+# web/tailwindcss*
