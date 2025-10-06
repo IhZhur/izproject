@@ -5,32 +5,30 @@ __pycache__/
 *.sqlite3
 local_settings.py
 
-# Django static/media (не хранить STATIC_ROOT и медиа)
+# Static/media (не версионировать STATIC_ROOT и сборки)
 web/staticfiles/
-media/
 static/build/
+media/
 
 # Node/Tailwind
 node_modules/
 web/node_modules/
 .pnpm-debug.log*
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+yarn-*.log
+*.map
 .vite/
 dist/
-*.map
 
-# Tailwind артефакты/бинарь (если не используете LFS)
+# Tailwind бинарь и папка (если НЕ храните через LFS)
 tailwindcss/
 web/tailwindcss/
 tailwindcss-linux-x64
 web/tailwindcss-linux-x64
-**/tailwind-output.css
 
 # IDE/OS
 .vscode/
 .DS_Store
 
-# Секреты
+# Secrets
 .env
