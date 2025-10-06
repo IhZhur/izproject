@@ -1,19 +1,36 @@
 # Python/Django
 __pycache__/
 *.py[cod]
+*.log
 *.sqlite3
+local_settings.py
 
-# Node
-node_modules/
-
-# Secrets
-.env
-
-# Build artifacts
-static/build/
+# Django static/media (не хранить STATIC_ROOT и медиа)
 web/staticfiles/
 media/
+static/build/
 
-# Editors/OS
+# Node/Tailwind
+node_modules/
+web/node_modules/
+.pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.vite/
+dist/
+*.map
+
+# Tailwind артефакты/бинарь (если не используете LFS)
+tailwindcss/
+web/tailwindcss/
+tailwindcss-linux-x64
+web/tailwindcss-linux-x64
+**/tailwind-output.css
+
+# IDE/OS
 .vscode/
 .DS_Store
+
+# Секреты
+.env
