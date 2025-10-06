@@ -32,3 +32,5 @@ web/tailwindcss-linux-x64
 
 # Secrets
 .env
+
+web/static/build/
